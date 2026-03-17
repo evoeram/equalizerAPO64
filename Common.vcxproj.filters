@@ -141,9 +141,6 @@
     <ClInclude Include="filters\loudnessCorrection\LoudnessCorrectionFilter.h">
       <Filter>filters\loudnessCorrection</Filter>
     </ClInclude>
-    <ClInclude Include="filters\loudnessCorrection\ISO226.h">
-      <Filter>filters\loudnessCorrection</Filter>
-    </ClInclude>
     <ClInclude Include="parser\LogicalOperators.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -271,9 +268,6 @@
       <Filter>filters\loudnessCorrection</Filter>
     </ClCompile>
     <ClCompile Include="filters\loudnessCorrection\LoudnessCorrectionFilter.cpp">
-      <Filter>filters\loudnessCorrection</Filter>
-    </ClCompile>
-    <ClCompile Include="filters\loudnessCorrection\ISO226.cpp">
       <Filter>filters\loudnessCorrection</Filter>
     </ClCompile>
     <ClCompile Include="parser\LogicalOperators.cpp">
