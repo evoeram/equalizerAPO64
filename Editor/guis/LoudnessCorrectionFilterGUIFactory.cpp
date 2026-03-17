@@ -45,7 +45,7 @@ void LoudnessCorrectionFilterGUIFactory::initialize(FilterTable* filterTable)
 QList<FilterTemplate> LoudnessCorrectionFilterGUIFactory::createFilterTemplates()
 {
 	QList<FilterTemplate> list;
-	list.append(FilterTemplate(tr("Loudness correction"), "LoudnessCorrection: State 1 ReferenceLevel 0 ReferenceOffset 0 Attenuation 1.0", QStringList(tr("Advanced filters"))));
+	list.append(FilterTemplate(tr("Loudness correction"), "LoudnessCorrection: Enabled 1 ReferencePhon 80 TargetPhon 40 Strength 1.0 MaxBoostDb 18 MaxCutDb 18", QStringList(tr("Advanced filters"))));
 	return list;
 }
 
@@ -58,7 +58,7 @@ IFilterGUI* LoudnessCorrectionFilterGUIFactory::createFilterGUI(QString& command
 		LoudnessCorrectionFilter::FilterParameters params;
 		if (!params.deSerialize(parameters.toStdWString()))
 		{
-			result = new LoudnessCorrectionFilterGUI(params.referenceLevel, params.referenceOffset, params.attenuation);
+			result = new LoudnessCorrectionFilterGUI(params.referencePhon, params.targetPhon, params.strength);
 
 			if (timer == NULL)
 			{

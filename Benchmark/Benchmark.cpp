@@ -35,8 +35,55 @@
 #include "../helpers/StringHelper.h"
 #include "../helpers/PrecisionTimer.h"
 #include "../helpers/MemoryHelper.h"
+#include "../filters/loudnessCorrection/ISO226.h"
 
 using namespace std;
+
+namespace
+{
+bool checkNear(const char* label, double value, double expected, double tolerance)
+{
+	double diff = fabs(value - expected);
+	if (diff > tolerance)
+	{
+		fprintf(stderr, "Self-test failed: %s expected %.3f got %.3f (diff %.3f)\n", label, expected, value, diff);
+		return false;
+	}
+	return true;
+}
+
+bool runIso226SelfTests()
+{
+	bool ok = true;
+	ok &= checkNear("Interpolate=compute at 1 kHz", iso226::interpolateSpl(1000.0, 40.0), iso226::computeSpl(1000.0, 40.0), 0.001);
+	ok &= checkNear("Interpolate=compute at 100 Hz", iso226::interpolateSpl(100.0, 40.0), iso226::computeSpl(100.0, 40.0), 0.001);
+	ok &= checkNear("Clamp below table", iso226::interpolateSpl(5.0, 40.0), iso226::computeSpl(20.0, 40.0), 0.001);
+	ok &= checkNear("Clamp above table", iso226::interpolateSpl(20000.0, 40.0), iso226::computeSpl(12500.0, 40.0), 0.001);
+
+	const double neutral100 = iso226::interpolateSpl(100.0, 80.0) - iso226::interpolateSpl(100.0, 80.0);
+	const double gain100 = iso226::interpolateSpl(100.0, 80.0) - iso226::interpolateSpl(100.0, 40.0);
+	const double gain1k = iso226::interpolateSpl(1000.0, 80.0) - iso226::interpolateSpl(1000.0, 40.0);
+	const double gain10k = iso226::interpolateSpl(10000.0, 80.0) - iso226::interpolateSpl(10000.0, 40.0);
+
+	ok &= checkNear("Neutral curve", neutral100, 0.0, 0.001);
+	ok &= checkNear("Strength baseline", gain1k - gain1k, 0.0, 0.001);
+	if (!(gain100 > gain1k + 5.0))
+	{
+		fprintf(stderr, "Self-test failed: LF boost too small (100 Hz %.3f dB, 1 kHz %.3f dB)\n", gain100, gain1k);
+		ok = false;
+	}
+	if (!(gain10k > gain1k + 1.0))
+	{
+		fprintf(stderr, "Self-test failed: HF boost too small (10 kHz %.3f dB, 1 kHz %.3f dB)\n", gain10k, gain1k);
+		ok = false;
+	}
+
+	if (ok)
+		printf("ISO 226 self-tests passed\n");
+
+	return ok;
+}
+}
 
 int main(int argc, char** argv)
 {
@@ -62,9 +109,12 @@ int main(int argc, char** argv)
 		TCLAP::ValueArg<float> toArg("t", "to", "End frequency of generated sweep in Hz (Default: 20000.0)", false, 20000.0f, "float", cmd);
 		TCLAP::ValueArg<float> fromArg("f", "from", "Start frequency of generated sweep in Hz (Default: 0.1)", false, 1.0f, "float", cmd);
 		TCLAP::ValueArg<float> lengthArg("l", "length", "Length of generated sweep in seconds (Default: 200.0)", false, 200.0f, "float", cmd);
-		TCLAP::ValueArg<unsigned> channelArg("c", "channels", "Number of channels of generated sweep (Default: 2)", false, 2, "integer", cmd);
+			TCLAP::ValueArg<unsigned> channelArg("c", "channels", "Number of channels of generated sweep (Default: 2)", false, 2, "integer", cmd);
+			TCLAP::SwitchArg selfTestArg("", "selftest", "Run ISO 226 loudness-correction self-tests", cmd);
 
-		cmd.parse(argc, argv);
+			cmd.parse(argc, argv);
+			if (selfTestArg.getValue())
+				return runIso226SelfTests() ? 0 : 2;
 
 		bool verbose = verboseArg.getValue();
 		LogHelper::set(stderr, verbose, true, true);

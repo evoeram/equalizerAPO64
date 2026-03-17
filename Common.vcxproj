@@ -329,6 +329,7 @@
     <ClInclude Include="filters\IncludeFilterFactory.h" />
     <ClInclude Include="filters\loudnessCorrection\LoudnessCorrectionFilterFactory.h" />
     <ClInclude Include="filters\loudnessCorrection\LoudnessCorrectionFilter.h" />
+    <ClInclude Include="filters\loudnessCorrection\ISO226.h" />
     <ClInclude Include="filters\loudnessCorrection\ParameterArchive.h" />
     <ClInclude Include="filters\loudnessCorrection\VolumeController.h" />
     <ClInclude Include="filters\PreampFilter.h" />
@@ -384,6 +385,7 @@
     <ClCompile Include="filters\IncludeFilterFactory.cpp" />
     <ClCompile Include="filters\loudnessCorrection\LoudnessCorrectionFilterFactory.cpp" />
     <ClCompile Include="filters\loudnessCorrection\LoudnessCorrectionFilter.cpp" />
+    <ClCompile Include="filters\loudnessCorrection\ISO226.cpp" />
     <ClCompile Include="filters\loudnessCorrection\VolumeController.cpp" />
     <ClCompile Include="filters\PreampFilter.cpp" />
     <ClCompile Include="filters\PreampFilterFactory.cpp" />

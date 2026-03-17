@@ -42,3 +42,20 @@ Local builds are configured via shared environment variables, directly configura
     <TCLAP_ROOT Condition="'$(TCLAP_ROOT)'==''">F:\Git\tclap</TCLAP_ROOT>
   </PropertyGroup>
 ```
+
+## Loudness correction (ISO 226:2023)
+`LoudnessCorrection` now uses ISO 226:2023 equal-loudness contours and computes a correction curve as a dB difference between a reference contour and a target contour.
+
+- `Enabled` (`0|1`)
+- `ReferencePhon` (default `80`)
+- `TargetPhon` (default `40`)
+- `Strength` (`0..1`, default `1`)
+- `MaxBoostDb` (default `18`)
+- `MaxCutDb` (default `18`)
+
+Example:
+`LoudnessCorrection: Enabled 1 ReferencePhon 80 TargetPhon 40 Strength 1.0 MaxBoostDb 18 MaxCutDb 18`
+
+Notes:
+- The implementation is a practical approximation for loudness compensation, not a full psychoacoustic model of arbitrary program material.
+- Strong low/high frequency boost can reduce headroom and increase clipping risk.
