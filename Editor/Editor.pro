@@ -131,6 +131,7 @@ SOURCES += main.cpp\
 	guis/LoudnessCorrectionFilterGUI.cpp \
 	guis/LoudnessCorrectionFilterGUIFactory.cpp \
 	../filters/loudnessCorrection/LoudnessCorrectionFilter.cpp \
+	../filters/loudnessCorrection/ISO226.cpp \
 	../filters/loudnessCorrection/LoudnessCorrectionFilterFactory.cpp \
 	../filters/loudnessCorrection/VolumeController.cpp \
 	guis/LoudnessCorrectionFilterGUIDialog.cpp \
@@ -254,6 +255,7 @@ HEADERS  += \
 	guis/LoudnessCorrectionFilterGUI.h \
 	guis/LoudnessCorrectionFilterGUIFactory.h \
 	../filters/loudnessCorrection/LoudnessCorrectionFilter.h \
+	../filters/loudnessCorrection/ISO226.h \
 	../filters/loudnessCorrection/LoudnessCorrectionFilterFactory.h \
 	../filters/loudnessCorrection/ParameterArchive.h \
 	../filters/loudnessCorrection/VolumeController.h \

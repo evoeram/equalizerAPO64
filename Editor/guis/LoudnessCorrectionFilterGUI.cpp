@@ -48,7 +48,7 @@ LoudnessCorrectionFilterGUI::~LoudnessCorrectionFilterGUI()
 void LoudnessCorrectionFilterGUI::store(QString& command, QString& parameters)
 {
 	command = "LoudnessCorrection";
-	parameters = QString("State %0 ReferenceLevel %1 ReferenceOffset %2 Attenuation ").arg(state ? 1 : 0).arg(ui->refLevelSpinBox->value()).arg(ui->refOffsetSpinBox->value());
+	parameters = QString("Enabled %0 ReferencePhon %1 TargetPhon %2 Strength ").arg(state ? 1 : 0).arg(ui->refLevelSpinBox->value()).arg(ui->refOffsetSpinBox->value());
 	double att = ui->attSpinBox->value();
 	if (att == 0.0 || att == 1.0)
 		parameters += QString("%0").arg(att, 0, 'f', 1);
